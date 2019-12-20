@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Guitar Tuner</title>
+    <link rel="stylesheet" href="tuner.css">
+    <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<script>
+//Initialise Strings for Standard Tuning
+    var string1 = 164.8;
+    var string2 = 220.0;
+    var string3 = 293.7;
+    var string4 = 392.0;
+    var string5 = 493.9;
+    var string6 = 659.3;
+</script>
+
+<div class="container margin-top-50">
+    <div class="row tuner-title">
+        <div class="col-xs-12">
+            <h1>Guitar Tuner</h1>
+            <button id="string1" class="tuner-button" onclick="playSound(string1);">E</button>
+            <button id="string2" class="tuner-button"  onclick="playSound(string2);">A</button>
+            <button id="string3" class="tuner-button"  onclick="playSound(string3);">D</button>
+            <button id="string4" class="tuner-button"  onclick="playSound(string4);">G</button>
+            <button id="string5" class="tuner-button"  onclick="playSound(string5);">B</button>
+            <button id="string6" class="tuner-button"  onclick="playSound(string6);">E</button>
+        </div>
+    </div>
+    <div class="row tuning-select">
+        <select id="tune-select" onchange="changeTuning()">
+            <option value="standard">       Standard | E A D G B E</option>
+            <option value="drop-d">         Drop D | D A D G B E</option>
+            <option value="drop-c">         Drop C | C G C F A D</option>
+            <option value="half-step-down"> Half Step Down | Eb Ab Db Gb Bb Eb</option>
+            <option value="open-c">         Open C | C G C G C E</option>
+        </select>
+    </div>
+</div>
+
+<script>
+var context = new AudioContext()
+function playSound(frequency){
+    var oscillator = context.createOscillator()
+    var gain = context.createGain()
+    oscillator.frequency.value = frequency
+    oscillator.type = 'triangle';
+    oscillator.connect(gain)
+    gain.connect(context.destination)
+    oscillator.start(0)
+    gain.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 3.5)
+}
+
+</script>
+<script src="tunings.js"></script>
+</body>
+</html>
